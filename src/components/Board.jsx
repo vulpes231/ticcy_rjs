@@ -1,6 +1,16 @@
+import { useState } from "react";
 import Button from "./Button";
 
 const Board = ({ player, squares, onClick }) => {
+  // pick option
+  const options = ["X", "O"];
+  const [selectedOption, setSelectedOption] = useState(options[0]);
+
+  function pickOption(option) {
+    setSelectedOption(option);
+    console.log(option);
+  }
+
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return;
@@ -8,9 +18,13 @@ const Board = ({ player, squares, onClick }) => {
     const nextSquares = squares.slice();
 
     if (player) {
-      nextSquares[i] = "X";
+      nextSquares[i] = selectedOption;
     } else {
-      nextSquares[i] = "O";
+      if (selectedOption === "X") {
+        nextSquares[i] = "O";
+      } else {
+        nextSquares[i] = "X";
+      }
     }
 
     onClick(nextSquares);
@@ -47,11 +61,34 @@ const Board = ({ player, squares, onClick }) => {
   if (winner) {
     gameStatus = winner + " wins!";
   } else {
-    gameStatus = "Next turn: " + (player ? "X" : "O");
+    gameStatus =
+      "Next turn: " +
+      (player ? selectedOption : selectedOption === "X" ? "O" : "X");
   }
   return (
     <div className="flex flex-col gap-4 p-6">
-      <h3>{gameStatus}</h3>
+      <div>
+        <p>Play as:</p>
+        <span>
+          <input
+            type="radio"
+            value={options[0]}
+            checked={selectedOption === options[0]}
+            onChange={() => pickOption(options[0])}
+          />
+          <p>X</p>
+        </span>
+        <span>
+          <input
+            type="radio"
+            value={options[1]}
+            checked={selectedOption === options[1]}
+            onChange={() => pickOption(options[1])}
+          />
+          <p>O</p>
+        </span>
+      </div>
+      <h3 className="text-2xl">{gameStatus}</h3>
       <div className="flex gap-4">
         <Button value={squares[0]} onClick={() => handleClick(0)} />
         <Button value={squares[1]} onClick={() => handleClick(1)} />

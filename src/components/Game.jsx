@@ -13,7 +13,7 @@ const Game = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 items-center justify-center">
       <div className="">
         <Board player={player} squares={currentSquares} onClick={handlePlay} />
       </div>

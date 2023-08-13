@@ -1,10 +1,6 @@
-import React, { useState } from "react";
 import Button from "./Button";
 
-const Board = () => {
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  const [player, setPlayer] = useState(true);
-
+const Board = ({ player, squares, onClick }) => {
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return;
@@ -17,8 +13,7 @@ const Board = () => {
       nextSquares[i] = "O";
     }
 
-    setSquares(nextSquares);
-    setPlayer(!player);
+    onClick(nextSquares);
   }
 
   function calculateWinner(squares) {
